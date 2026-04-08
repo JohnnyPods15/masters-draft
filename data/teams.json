@@ -1,0 +1,44 @@
+{
+  "1": {
+    "name": "Team 1",
+    "picks": [
+      "Scottie Scheffler"
+    ]
+  },
+  "2": {
+    "name": "Team 2",
+    "picks": []
+  },
+  "3": {
+    "name": "Team 3",
+    "picks": []
+  },
+  "4": {
+    "name": "Team 4",
+    "picks": []
+  },
+  "5": {
+    "name": "Team 5",
+    "picks": []
+  },
+  "6": {
+    "name": "Team 6",
+    "picks": []
+  },
+  "7": {
+    "name": "Team 7",
+    "picks": []
+  },
+  "8": {
+    "name": "Team 8",
+    "picks": []
+  },
+  "9": {
+    "name": "Team 9",
+    "picks": []
+  },
+  "10": {
+    "name": "Team 10",
+    "picks": []
+  }
+}
