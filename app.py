@@ -127,7 +127,7 @@ html, body, [class*="css"] {
 st.markdown("""
 <div class="main-header">
     <h1>⛳ The Masters Draft</h1>
-    <p>Augusta National · 2025 · Fantasy Golf</p>
+    <p>Augusta National · 2026 · Fantasy Golf</p>
 </div>
 """, unsafe_allow_html=True)
 
