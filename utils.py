@@ -84,11 +84,8 @@ def calc_team_score(picks, scores):
         else:
             pick_scores.append(None)
     valid = [s for s in pick_scores if s is not None]
-    if len(valid) >= 3:
-        best3 = sum(sorted(valid, reverse=True)[:3])
-    else:
-        best3 = sum(valid)
-    return best3, pick_scores
+    total = sum(valid)
+return total, pick_scores
 
 def get_drafted_players():
     teams = load_teams()
