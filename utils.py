@@ -85,7 +85,7 @@ def calc_team_score(picks, scores):
             pick_scores.append(None)
     valid = [s for s in pick_scores if s is not None]
     total = sum(valid)
-return total, pick_scores
+    return total, pick_scores
 
 def get_drafted_players():
     teams = load_teams()
