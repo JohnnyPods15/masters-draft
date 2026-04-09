@@ -3,7 +3,7 @@ from utils import load_teams, load_draft, generate_snake_order
 
 def show():
     st.markdown("## 📋 Draft Board")
-    st.markdown("Snake draft order — 10 teams, 5 rounds, 5 picks each.")
+    st.markdown("Snake draft order — 8 teams, 5 rounds, 5 picks each.")
 
     teams = load_teams()
     draft = load_draft()
