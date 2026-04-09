@@ -1,5 +1,7 @@
 import streamlit as st
 from utils import load_teams, save_teams, load_draft, save_draft, get_drafted_players
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data.players import PLAYERS
 
 def show():
