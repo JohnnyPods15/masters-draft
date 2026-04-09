@@ -38,7 +38,7 @@ def save_json(filepath, data):
         json.dump(data, f, indent=2)
 
 def load_teams():
-    default = {str(i): {"name": f"Team {i}", "picks": []} for i in range(1, 11)}
+    default = {str(i): {"name": f"Team {i}", "picks": []} for i in range(1, 9)}
     return load_json(TEAMS_FILE, default)
 
 def save_teams(teams):
@@ -61,9 +61,9 @@ def generate_snake_order():
     order = []
     for r in range(5):
         if r % 2 == 0:
-            order.extend(range(1, 11))
+            order.extend(range(1, 9))
         else:
-            order.extend(range(10, 0, -1))
+            order.extend(range(8, 0, -1))
     return order
 
 def get_points(position):
