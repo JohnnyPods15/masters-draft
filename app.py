@@ -148,7 +148,7 @@ Top 10 · 5 pts<br>
 Top 20 · 3 pts<br>
 Top 30 · 1 pt<br>
 Missed Cut · 0 pts<br><br>
-<i>Best 3 of 5 picks count</i>
+<i>All picks count</i>
 </div>
 """, unsafe_allow_html=True)
 
