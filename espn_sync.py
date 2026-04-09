@@ -3,10 +3,6 @@ import requests
 ESPN_URL = "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard"
 
 def fetch_espn_scores():
-    """
-    Fetch live Masters leaderboard from ESPN's unofficial API.
-    Returns a dict of {player_name: {position, to_par, thru, status}} or None on failure.
-    """
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
@@ -18,7 +14,7 @@ def fetch_espn_scores():
         data = resp.json()
         events = data.get("events", [])
         if not events:
-            return None, "No events found in ESPN data — tournament may not be active yet."
+            return None, "No events found — tournament may not be active yet."
 
         # Find the Masters
         masters_event = None
@@ -27,13 +23,8 @@ def fetch_espn_scores():
             if "masters" in name:
                 masters_event = event
                 break
-
-        # If no Masters found, use first event
         if not masters_event:
-            if events:
-                masters_event = events[0]
-            else:
-                return None, "No golf events currently available on ESPN."
+            masters_event = events[0]
 
         competitions = masters_event.get("competitions", [])
         if not competitions:
@@ -50,31 +41,25 @@ def fetch_espn_scores():
                 continue
 
             status_obj = comp.get("status", {})
-            status_type = status_obj.get("type", {}).get("name", "").lower()
+            status_desc = status_obj.get("type", {}).get("description", "").lower()
+            status_name = status_obj.get("type", {}).get("name", "").lower()
 
-            # Position
             pos_str = comp.get("order", None)
             try:
                 position = int(pos_str) if pos_str else None
             except:
                 position = None
 
-            # To par score
-            linescores = comp.get("linescores", [])
             score_value = comp.get("score", "E")
-
-            # Thru
             thru = status_obj.get("displayValue", "")
 
-            # Status
-            if "cut" in status_type or comp.get("status", {}).get("type", {}).get("description", "").lower() == "cut":
+            if "cut" in status_desc or "cut" in status_name:
                 status = "cut"
-            elif "withdraw" in status_type or "wd" in status_type:
+            elif "withdraw" in status_desc or "wd" in status_name:
                 status = "wd"
             else:
                 status = "active"
 
-            # Format to par
             try:
                 par_val = int(score_value)
                 if par_val > 0:
@@ -94,13 +79,13 @@ def fetch_espn_scores():
             }
 
         if not scores:
-            return None, "Could not parse player data from ESPN response."
+            return None, "Could not parse player data from ESPN."
 
-        return scores, f"Successfully synced {len(scores)} players from ESPN."
+        return scores, f"Synced {len(scores)} players from ESPN."
 
     except requests.exceptions.Timeout:
-        return None, "ESPN request timed out. Try again."
+        return None, "ESPN request timed out."
     except requests.exceptions.ConnectionError:
-        return None, "Could not connect to ESPN. Check your internet connection."
+        return None, "Could not connect to ESPN."
     except Exception as e:
-        return None, f"Unexpected error: {str(e)}"
+        return None, f"Error: {str(e)}"
