@@ -1,8 +1,16 @@
 import streamlit as st
-from utils import load_teams, load_scores, calc_team_score, get_points
+from utils import load_teams, load_scores, save_scores, calc_team_score, get_points
+from espn_sync import fetch_espn_scores
 
 def show():
     st.markdown("## 🏆 Leaderboard")
+
+    # Auto-sync scores from ESPN
+    espn_scores, _ = fetch_espn_scores()
+    if espn_scores:
+        existing = load_scores()
+        existing.update(espn_scores)
+        save_scores(existing)
 
     teams = load_teams()
     scores = load_scores()
