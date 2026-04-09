@@ -10,11 +10,11 @@ def show():
     order = draft.get("order", generate_snake_order())
     current_pick = draft.get("current_pick", 0)
 
-    # Build grid: rounds x teams
     rounds = 5
     num_teams = 8
+    total_picks = rounds * num_teams
 
-    # Header
+    # Header row — team names in order 1-8
     cols = st.columns([1.2] + [1.5] * num_teams)
     cols[0].markdown("<div style='font-size:0.8rem;color:rgba(255,255,255,0.5);padding:0.4rem 0;'>ROUND</div>", unsafe_allow_html=True)
     for i in range(num_teams):
@@ -29,14 +29,18 @@ def show():
         cols = st.columns([1.2] + [1.5] * num_teams)
         cols[0].markdown(f"<div style='font-size:0.85rem;color:rgba(255,255,255,0.6);padding:0.5rem 0.25rem;font-weight:600;'>R{r+1}</div>", unsafe_allow_html=True)
 
-        for pick_in_round in range(num_teams):
-            global_pick = r * num_teams + pick_in_round
-            team_num = order[global_pick]
-            team_id = str(team_num)
+        # For each team column, find what pick slot they occupy this round
+        for team_idx in range(num_teams):
+            team_id = str(team_idx + 1)
+            # Find the global pick index for this team in this round
+            global_pick = r * num_teams + order[r * num_teams:r * num_teams + num_teams].index(team_idx + 1)
+            
             picks = teams.get(team_id, {}).get("picks", [])
-            player = picks[r] if r < len(picks) and picks[r] else None
+            # picks are stored in draft order, find which round index this team picked in
+            round_pick_index = sum(1 for p in order[:global_pick] if p == team_idx + 1)
+            player = picks[round_pick_index] if round_pick_index < len(picks) and picks[round_pick_index] else None
 
-            is_on_clock = global_pick == current_pick and current_pick < rounds * num_teams
+            is_on_clock = global_pick == current_pick and current_pick < total_picks
 
             if player:
                 bg = "rgba(201,168,76,0.15)"
@@ -54,7 +58,9 @@ def show():
                 text_color = "rgba(255,255,255,0.2)"
                 label = "—"
 
-            cols[pick_in_round + 1].markdown(
+            # Show pick number in snake order as subtitle
+            snake_pos = order[global_pick]
+            cols[team_idx + 1].markdown(
                 f"""<div style='background:{bg};border:{border};border-radius:6px;
                 padding:0.4rem 0.5rem;text-align:center;font-size:0.78rem;
                 color:{text_color};min-height:2.2rem;display:flex;align-items:center;
@@ -65,7 +71,7 @@ def show():
         st.markdown("<div style='margin-bottom:0.4rem;'></div>", unsafe_allow_html=True)
 
     # Current pick indicator
-    if current_pick < rounds * num_teams:
+    if current_pick < total_picks:
         team_on_clock = order[current_pick]
         team_name = teams.get(str(team_on_clock), {}).get("name", f"Team {team_on_clock}")
         round_num = current_pick // num_teams + 1
@@ -75,8 +81,8 @@ def show():
 padding:1rem 1.5rem;margin-top:1.5rem;text-align:center;'>
     <div style='font-size:0.8rem;color:rgba(255,255,255,0.6);letter-spacing:0.1em;text-transform:uppercase;'>Now Picking</div>
     <div style='font-size:1.4rem;font-weight:700;color:#C9A84C;margin:0.3rem 0;'>{team_name}</div>
-    <div style='font-size:0.85rem;color:rgba(255,255,255,0.5);'>Round {round_num} · Pick {pick_num} of 10</div>
+    <div style='font-size:0.85rem;color:rgba(255,255,255,0.5);'>Round {round_num} · Pick {pick_num} of 8</div>
 </div>
 """, unsafe_allow_html=True)
     else:
-        st.success("✅ Draft complete! All 50 picks have been made.")
+        st.success("✅ Draft complete! All 40 picks have been made.")
