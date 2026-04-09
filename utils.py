@@ -1,6 +1,6 @@
 import json
-import os
-import streamlit as st
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 DATA_DIR = "data"
 TEAMS_FILE = os.path.join(DATA_DIR, "teams.json")
