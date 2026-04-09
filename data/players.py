@@ -1,5 +1,4 @@
 PLAYERS = [
-   PLAYERS = [
     "Scottie Scheffler",
     "Rory McIlroy",
     "Ludvig Åberg",
@@ -80,5 +79,5 @@ PLAYERS = [
     "Brandon Holtz (a)",
     "Fifa Laopakdee (a)",
     "Mateo Pulcini (a)",
-]
+
 ]
