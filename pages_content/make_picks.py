@@ -9,8 +9,8 @@ def show():
     draft = load_draft()
     order = draft.get("order", [])
     current_pick = draft.get("current_pick", 0)
-    num_teams = 10
-    total_picks = 50
+    num_teams = 8
+    total_picks = 40
 
     # Who's on the clock
     if current_pick >= total_picks:
