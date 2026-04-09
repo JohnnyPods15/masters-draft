@@ -12,7 +12,7 @@ def show():
 
     # Build grid: rounds x teams
     rounds = 5
-    num_teams = 10
+    num_teams = 8
 
     # Header
     cols = st.columns([1.2] + [1.5] * num_teams)
