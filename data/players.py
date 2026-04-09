@@ -11,6 +11,7 @@ PLAYERS = [
     "Chris Gotterup",
     "Bryson DeChambeau",
     "Cameron Young",
+    "Robert MacIntyre",
     "Patrick Cantlay",
     "Hideki Matsuyama",
     "Russell Henley",
